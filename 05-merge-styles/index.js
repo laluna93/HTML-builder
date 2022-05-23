@@ -13,22 +13,16 @@ async function readCopy() {
           console.log(str);
           const reads = fs.createReadStream(path.join(__dirname, 'styles', str), 'utf8');
           aWait(reads);
-          console.log(str);
-          reads.on('data', (data) => {
-            console.log(data);
-          }
-          );
         }
       }
     });
   });
 }
 async function aWait(reads) {
-  await pipeline(reads, bund, (err) => {
+  pipeline(reads, bund, (err) => {
     if (err) {
       throw err;
     }
-    console.log('awayt');
   }
   );
 }
