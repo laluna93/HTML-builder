@@ -10,7 +10,6 @@ async function readCopy() {
         let file = el.name.split('.');
         if (file[1] == 'css') {
           let str = file.join('.');
-          console.log(str);
           const reads = fs.createReadStream(path.join(__dirname, 'styles', str), 'utf8');
           aWait(reads);
         }
