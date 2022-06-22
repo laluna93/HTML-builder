@@ -68,5 +68,26 @@ async function wr(rea) {
   );
 }
 
+async function copyHTML() {
+  const bundlePath = path.join(__dirname, 'project-dist');
+  const templatePath = path.join(__dirname, 'template.html');
+  const componentPath = path.join(__dirname, 'components');
+  let template = await fs.promises.readFile(templatePath, 'utf-8');
+  let namePath = path.join(__dirname, 'project-dist');
+  const files = await fs.promises.readdir(componentPath, { withFileTypes: true });
+  for (let file of files) {
+    const ext = path.extname(file.name);
+    if (file.isFile() && ext === '.html') {
+      const name = path.basename(file.name, ext);
+      const data = await fs.promises.readFile(path.join(componentPath, file.name), 'utf8');
+      template = template.replace(`{{${name}}}`, data);
+    }
+  }
+  await fs.promises.writeFile(path.join(namePath, 'index.html'), template, 'utf8');
+  console.log(template);
+}
+
+copyHTML();
+
 create();
 reads();
